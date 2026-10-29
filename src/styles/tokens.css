@@ -1,0 +1,62 @@
+/* Brand tokens. Colours from the client brief: blue #0070C0 (Nalin / Management Consulting),
+   teal #009999 (Renu / Coaching & Mentoring), warm gold #D9A441, white and sand backgrounds, no black sections.
+   Darker shades (-d) are used for small text on white to meet WCAG contrast. */
+:root {
+  --blue: #0070C0;
+  --blue-d: #005A9A;
+  --blue-l: #0A7FCC;
+  --teal: #009999;
+  --teal-d: #007A7A;
+  --teal-l: #00A3A3;
+  --gold: #D9A441;
+  --gold-d: #C8902C;
+  --gold-l: #F0C978;
+  --ink: #1E2A36;
+  --muted: #4A5866;
+  --white: #fff;
+  --sand: #F4ECE1;
+  --sand-1: #F7F1E8;
+  --sand-2: #F1E7DA;
+  --sand-3: #EADFCF;
+  --cream: #FBF8F3;
+  --line: #E3D8C8;
+  --line-soft: rgba(220, 205, 184, .7);
+  --field: #8C7F6E;
+  --error: #B3261E;
+  --error-ink: #8C1D18;
+  --error-bg: #FBEDEC;
+  --hero-deep: #0F3C56;
+
+  /* Type (brief: match Prism Global Services fonts once confirmed) */
+  --font-display: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-body: 'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Layout */
+  --wrap: 1180px;
+  --gutter: 24px;
+  --radius: 6px;
+  --radius-sm: 3px;
+  --section-y: clamp(64px, 9vw, 120px);
+  --header-offset: 92px;
+
+  /* Motion */
+  --ease: cubic-bezier(.2, .7, .2, 1);
+  --t-fast: .2s;
+  --t-card: .3s;
+  --t-reveal: .65s;
+
+  /* Elevation */
+  --shadow-card: 0 1px 2px rgba(30, 42, 54, .04), 0 18px 40px -24px rgba(30, 42, 54, .25);
+  --shadow-lift: 0 2px 4px rgba(30, 42, 54, .05), 0 28px 52px -24px rgba(30, 42, 54, .30);
+  --shadow-btn: 0 12px 24px -12px rgba(30, 42, 54, .45);
+
+  /* Gradients */
+  --g-spectrum: linear-gradient(90deg, var(--blue) 0%, var(--teal) 52%, var(--gold) 100%);
+  --g-gold-rule: linear-gradient(90deg, var(--gold), var(--gold-l));
+  --g-sand: linear-gradient(180deg, #F6EFE5 0%, var(--sand-2) 100%);
+  --g-bridge: linear-gradient(180deg, var(--cream) 0%, var(--white) 260px);
+  --g-band-blue: radial-gradient(70% 160% at 100% 0%, rgba(255, 255, 255, .2), transparent 55%), linear-gradient(120deg, var(--blue-l) 0%, var(--blue) 50%, var(--blue-d) 100%);
+  --g-band-teal: radial-gradient(70% 160% at 100% 0%, rgba(255, 255, 255, .2), transparent 55%), linear-gradient(120deg, var(--teal-l) 0%, var(--teal) 50%, var(--teal-d) 100%);
+  --g-photo-blue: radial-gradient(60% 80% at 50% 105%, rgba(255, 255, 255, .28), transparent 65%), radial-gradient(50% 70% at 100% 0%, rgba(217, 164, 65, .22), transparent 70%), linear-gradient(160deg, #0A80CF 0%, var(--blue) 45%, #00508A 100%);
+  --g-photo-teal: radial-gradient(60% 80% at 50% 105%, rgba(255, 255, 255, .28), transparent 65%), radial-gradient(50% 70% at 100% 0%, rgba(217, 164, 65, .22), transparent 70%), linear-gradient(160deg, #00A6A6 0%, var(--teal) 45%, #006F73 100%);
+}
