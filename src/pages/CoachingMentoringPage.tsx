@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Ambient from "../components/Ambient";
 import PageHeader from "../components/PageHeader";
-import { CM_ITEMS, STEPS, WHY } from "../content/site";
+import { CM_ITEMS, STEPS } from "../content/site";
 import { LINKS } from "../content/nav";
 
 export default function CoachingMentoringPage() {
