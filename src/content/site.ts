@@ -5,6 +5,8 @@ export interface Associate {
   role: string;
   quals: string;
   bullets: string[];
+  /** Square headshot under /public; falls back to initials when absent. */
+  photo?: string;
 }
 export interface Item {
   title: string;
@@ -99,6 +101,7 @@ export const ASSOCIATES: Associate[] = [
   {
     slug: "amita-devnani",
     name: "Amita Devnani",
+    photo: "/assets/associates/amita-devnani.jpg",
     role: "Life Coach & Psychologist, Gurgaon, India",
     quals:
       "Masters in Psychology, ICF Certified Life Coach, Certified in CBT, REBT, NLP, TA, ACT & Hypnosis",
@@ -113,6 +116,7 @@ export const ASSOCIATES: Associate[] = [
   {
     slug: "anupama-easwaran",
     name: "Anupama Easwaran",
+    photo: "/assets/associates/anupama-easwaran.jpg",
     role: "Diversity and Inclusion Counsellor & Coach, Mumbai, India",
     quals:
       "Erickson International Certified Executive Coach specialising in Diversity and Inclusion, Certified Counsellor, PG in Management",
@@ -131,6 +135,7 @@ export const ASSOCIATES: Associate[] = [
   {
     slug: "divya-pandey",
     name: "Divya Pandey",
+    photo: "/assets/associates/divya-pandey.jpg",
     role: "Life-Coach, Psychotherapist & Clinical Hypnotherapist, Dubai",
     quals:
       "Counselling Psychologist (M.A. Psychology), Certificated Clinical Hypnotherapist, Certified Life Coach (ICF-ACC), Certified Inner Child Healer, NLP & Theta Healing Practitioner, MBA",
@@ -149,6 +154,7 @@ export const ASSOCIATES: Associate[] = [
   {
     slug: "renu-gulati",
     name: "Dr. Renu Gulati",
+    photo: "/assets/associates/renu-gulati.jpg",
     role: "Adolescence/Youth and Parenting Specialist, Delhi, India",
     quals:
       "Associate Professor, Department of Human Development and Childhood Studies, Delhi University, with over 35 years experience",
@@ -163,6 +169,7 @@ export const ASSOCIATES: Associate[] = [
   {
     slug: "veenu-wadhwa",
     name: "Dr. Veenu Wadhwa",
+    photo: "/assets/associates/veenu-wadhwa.jpg",
     role: "Early Childhood and Parenting Specialist, Delhi, India",
     quals:
       "BSc. Home Science (specialization Child Development), MSc. Child Development, BEd, PhD – Child Development, MSc Counselling & Family Therapy",
@@ -177,6 +184,7 @@ export const ASSOCIATES: Associate[] = [
   {
     slug: "monika-vasal",
     name: "Monika Vasal",
+    photo: "/assets/associates/monika-vasal.jpg",
     role: "Family Counsellor and Marital Therapist, Gurgaon, India",
     quals: "Masters in Counselling and Family Therapy",
     bullets: [
@@ -192,6 +200,7 @@ export const ASSOCIATES: Associate[] = [
   {
     slug: "pompi-sarma",
     name: "Pompi Sarma",
+    photo: "/assets/associates/pompi-sarma.jpg",
     role: "Life Coach / Emotional Intelligence Coach, Delhi, India",
     quals:
       "Masters in Psychology, Diploma in Counselling Skills, Certificate in Student Counselling, Certified Emotional Intelligence Coach, Diploma in NLP. Received AWWA Award of Excellence in 2019",
@@ -204,6 +213,7 @@ export const ASSOCIATES: Associate[] = [
   {
     slug: "pradeep-saxena",
     name: "Pradeep Saxena",
+    photo: "/assets/associates/pradeep-saxena.jpg",
     role: "Executive Coach & Life Coach, Gurgaon, India",
     quals:
       "Associate Certified Coach (ACC) – International Coach Federation, ACSTH ACC Certificate, Certificate in Leadership Pipeline Development, MBA, Greatest Marketing Influencers Award 2018",
@@ -216,6 +226,7 @@ export const ASSOCIATES: Associate[] = [
   {
     slug: "ruchira-bhatia",
     name: "Ruchira Bhatia",
+    photo: "/assets/associates/ruchira-bhatia.jpg",
     role: "Psychotherapist, Gurgaon, India",
     quals: "PG Diploma in Integrative Counselling",
     bullets: [
@@ -234,6 +245,7 @@ export const ASSOCIATES: Associate[] = [
   {
     slug: "sneha-atal",
     name: "Sneha Atal",
+    photo: "/assets/associates/sneha-atal.jpg",
     role: "Counselling Psychologist, Vizag, India",
     quals:
       "Masters in Applied Psychology, PG Dip in Guidance and Counselling, BSc Psychology, Certified in Rational Emotive Behavioral Therapy and Client-Centred Counselling, Certified Parenting Coach",

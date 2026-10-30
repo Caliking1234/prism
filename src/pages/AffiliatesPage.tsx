@@ -36,6 +36,15 @@ export default function AffiliatesPage() {
               <p className="partner__more">Nalin is a Founding Partner at Precision Legal. For more information, please visit: <a href={LINKS.precisionLegal} target="_blank" rel="noopener">www.precisionlegalconsultancy.com ↗</a></p>
             </div>
           </article>
+          <article className="partner">
+            <PartnerLogo src="/assets/partners/eraya.png" name="ERAYA INC." />
+            <h2>ERAYA INC.</h2>
+            <div className="partner__text">
+              <p>ERAYA INC. is a Dubai-based firm providing marketing management, public relations management and project management services.</p>
+              <p>ERAYA INC. works on defined client mandates. It directs market entry, coordinates the client’s advisers, and manages relationships with institutional counterparties. Sectors include real estate development, hospitality, retail and consumer brands, government and institutional bodies, private offices and infrastructure services.</p>
+              <p>Each mandate runs in four stages: operational assessment, strategy definition, stakeholder convening and execution oversight.</p>
+            </div>
+          </article>
         </div>
       </section>
     </>

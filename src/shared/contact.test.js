@@ -26,6 +26,8 @@ describe('validation', () => {
   });
   it('rejects malformed email and phone', () => {
     expect(validate({ ...good, email: 'jane@acme' }, 'mc').email).toBeTruthy();
+    for (const bad of ['jane(x)@acme.com', 'a;b@acme.com', 'jane@acme.com,evil@x.com', 'a:b@acme.com', 'a\\b@acme.com'])
+      expect(validate({ ...good, email: bad }, 'mc').email).toBeTruthy();
     expect(validate({ ...good, phone: 'call me' }, 'mc').phone).toBeTruthy();
   });
   it('only allows enquiry options for the chosen practice', () => {
@@ -42,7 +44,7 @@ describe('validation', () => {
 describe('email content', () => {
   it('includes every field and escapes HTML', () => {
     const mail = buildEmail('mc', normalize(good));
-    expect(mail.subject).toBe('New business enquiry — Jane Doe');
+    expect(mail.subject).toBe('[Management Consulting] New business enquiry — Jane Doe');
     for (const s of ['Jane Doe', 'Acme', 'jane@acme.com', '+971 50 123 4567', 'Project Structuring', 'Management Consulting']) expect(mail.text).toContain(s);
     expect(mail.html).toContain('&lt;b&gt;now&lt;/b&gt;');
     expect(mail.html).not.toContain('<b>now</b>');
@@ -116,5 +118,24 @@ describe('handleContact', () => {
     const e = { ...env, RECAPTCHA_SECRET: 's' };
     expect((await handleContact(req({ ...good, recaptchaToken: 't' }), { env: e, ip: '3.3.3.1', fetchImpl: low })).status).toBe(400);
     expect((await handleContact(req({ ...good, recaptchaToken: 't' }), { env: e, ip: '3.3.3.2', fetchImpl: high })).status).toBe(200);
+  });
+});
+
+describe('SMTP transport (Vercel + Gmail)', () => {
+  const smtpEnv = { CONTACT_TO_MC: 'inbox@gmail.com', CONTACT_TO_CM: 'inbox@gmail.com', CONTACT_FROM_EMAIL: 'Prism Consulting <inbox@gmail.com>' };
+  it('sends through sendMail without a Resend key, with the visitor as Reply-To', async () => {
+    const sendMail = vi.fn(async () => {});
+    const f = okFetch();
+    const res = await handleContact(req({ ...good, practice: 'cm', enquiry: 'Other' }), { env: smtpEnv, ip: '4.4.4.1', fetchImpl: f, sendMail });
+    expect(res.status).toBe(200);
+    expect(f).not.toHaveBeenCalled();
+    const m = sendMail.mock.calls[0][0];
+    expect(m).toMatchObject({ from: smtpEnv.CONTACT_FROM_EMAIL, to: ['inbox@gmail.com'], replyTo: 'jane@acme.com' });
+    expect(m.subject.startsWith('[Coaching & Mentoring]')).toBe(true);
+  });
+  it('reports SMTP failure instead of false success', async () => {
+    const sendMail = vi.fn(async () => { throw Object.assign(new Error('auth'), { code: 'EAUTH' }); });
+    const res = await handleContact(req(good), { env: smtpEnv, ip: '4.4.4.2', sendMail });
+    expect(res.status).toBe(502);
   });
 });

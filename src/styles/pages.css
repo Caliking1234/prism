@@ -119,6 +119,7 @@
 .associate:hover { transform: translateY(-3px); border-color: rgba(0, 153, 153, .45); box-shadow: 0 22px 44px -26px rgba(0, 122, 122, .35); }
 .associate__head { display: flex; gap: 16px; align-items: center; }
 .associate__initials { width: 56px; height: 56px; flex-shrink: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--teal-l), var(--teal-d)); color: #fff; font: 600 20px var(--font-display); }
+.associate__photo { width: 72px; height: 72px; flex-shrink: 0; border-radius: 50%; object-fit: cover; background: var(--line); box-shadow: 0 0 0 3px #fff, 0 0 0 4px rgba(0, 153, 153, .35); }
 .associate h2 { font-size: 22px; font-weight: 600; line-height: 1.2; margin-bottom: 4px; }
 .associate__role { font: 600 14px/1.4 var(--font-body); color: var(--teal-d); }
 .associate__quals { font: 500 15px/1.55 var(--font-body); }

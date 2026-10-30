@@ -61,7 +61,8 @@ export function normalize(raw) {
   return out;
 }
 
-const EMAIL_RE = /^[^\s@"<>]+@[^\s@"<>]+\.[^\s@"<>]{2,}$/;
+// Excludes quote, angle-bracket, comment and group characters so the address is always a plain addr-spec.
+const EMAIL_RE = /^[^\s@"<>(),;:\\[\]]+@[^\s@"<>(),;:\\[\]]+\.[^\s@"<>(),;:\\[\]]{2,}$/;
 
 /**
  * @param {Record<string, unknown>} values

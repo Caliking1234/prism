@@ -13,7 +13,9 @@ export default function AssociatesPage() {
             {ASSOCIATES.map(a => (
               <li className="associate" key={a.slug}>
                 <div className="associate__head">
-                  <span className="associate__initials" aria-hidden="true">{a.name.replace(/^Dr\. /, '').split(' ').map(w => w[0]).join('').slice(0, 2)}</span>
+                  {a.photo
+                    ? <img className="associate__photo" src={a.photo} alt={`Portrait of ${a.name}`} width={320} height={320} loading="lazy" decoding="async" />
+                    : <span className="associate__initials" aria-hidden="true">{a.name.replace(/^Dr\. /, '').split(' ').map(w => w[0]).join('').slice(0, 2)}</span>}
                   <div>
                     <h2>{a.name}</h2>
                     <p className="associate__role">{a.role}</p>

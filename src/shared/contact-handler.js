@@ -1,4 +1,4 @@
-// Server-side contact endpoint logic. Runs in the Netlify Function (never in the browser bundle).
+// Server-side contact endpoint logic. Runs in the Vercel or Netlify function (never in the browser bundle).
 import { PRACTICES, FIELDS, LABELS, normalize, validate } from './contact.js';
 
 const MAX_BODY_BYTES = 20_000;
@@ -20,7 +20,8 @@ export const escapeHtml = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;
 
 export function buildEmail(practice, v) {
   const p = PRACTICES[practice];
-  const subject = `New business enquiry — ${v.name}`.slice(0, 200);
+  // Practice goes first so enquiries stay easy to tell apart when both forms share one inbox.
+  const subject = `[${p.label}] New business enquiry — ${v.name}`.slice(0, 200);
   const rows = FIELDS.filter(k => k !== 'code').map(k => [LABELS[k], k === 'phone' ? `${v.code} ${v.phone}` : (v[k] || '—')]);
   rows.unshift(['Practice', p.label]);
   const text = rows.map(([l, val]) => `${l}: ${val}`).join('\n') + '\n\nSent from the contact form on prismconsulting.org';
@@ -54,9 +55,12 @@ async function verifyRecaptcha(token, env, fetchImpl) {
 
 /**
  * @param {Request} req
- * @param {{ env: Record<string, string | undefined>, ip?: string, fetchImpl?: typeof fetch, now?: number }} ctx
+ * @typedef {{ from: string, to: string[], replyTo: string, subject: string, text: string, html: string }} OutgoingMail
+ * @param {{ env: Record<string, string | undefined>, ip?: string, fetchImpl?: typeof fetch, now?: number,
+ *   sendMail?: (mail: OutgoingMail) => Promise<void> }} ctx
+ *   sendMail: optional transport (e.g. SMTP). It must throw on failure. Without it, mail goes through Resend.
  */
-export async function handleContact(req, { env, ip, fetchImpl = fetch, now = Date.now() }) {
+export async function handleContact(req, { env, ip, fetchImpl = fetch, now = Date.now(), sendMail }) {
   const requestId = (globalThis.crypto?.randomUUID?.() || String(now)).slice(0, 8);
   const fail = (status, error, extra = {}) => json(status, { ok: false, error, requestId, ...extra });
 
@@ -100,12 +104,23 @@ export async function handleContact(req, { env, ip, fetchImpl = fetch, now = Dat
 
   const to = (practice === 'mc' ? env.CONTACT_TO_MC : env.CONTACT_TO_CM) || '';
   const recipients = to.split(',').map(s => s.trim()).filter(Boolean);
-  if (!recipients.length || !env.CONTACT_FROM_EMAIL || !env.RESEND_API_KEY) {
+  if (!recipients.length || !env.CONTACT_FROM_EMAIL || (!sendMail && !env.RESEND_API_KEY)) {
     console.error(`[contact ${requestId}] missing configuration`);
     return fail(500, 'The form is temporarily unavailable. Please email us directly.');
   }
 
   const mail = buildEmail(practice, values);
+  if (sendMail) {
+    try {
+      await sendMail({ from: env.CONTACT_FROM_EMAIL, to: recipients, replyTo: values.email, ...mail });
+    } catch (err) {
+      console.error(`[contact ${requestId}] smtp failed: ${err?.code || err?.responseCode || 'error'}`);
+      return fail(502, 'Your message could not be sent. Please try again shortly.');
+    }
+    console.info(`[contact ${requestId}] sent practice=${practice} via smtp`);
+    return json(200, { ok: true, requestId });
+  }
+
   try {
     const res = await fetchImpl('https://api.resend.com/emails', {
       method: 'POST',

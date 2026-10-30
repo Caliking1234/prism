@@ -13,7 +13,7 @@ npm run dev:netlify    # site + /api/contact function together (needs: npm i -g 
 npm run build          # type-check, build, pre-render per-route HTML + sitemap into dist/
 ```
 
-`npm run dev` runs only the front end. Form posts proxy to `localhost:8888`, so start `netlify dev` as well, or use `npm run dev:netlify`.
+`npm run dev` runs the site and the contact endpoint together: Vite serves `/api/contact` from `api/contact.js`, using server settings from `.env` (copy `.env.example`).
 
 ## Routes
 
@@ -27,19 +27,19 @@ npm run build          # type-check, build, pre-render per-route HTML + sitemap 
 | `/affiliate/` | Affiliates (Watt, Precision Legal). Legacy URL kept |
 | `/associates/` | Associates, copied from the PGS Our Experts page |
 | `/contact-us/` (`#contact-nalin`, `#contact-renu`) | Two contact forms. Legacy URL kept |
-| `/profile/` | 301 redirect to `/our-team/` (netlify.toml) |
+| `/profile/` | 301 redirect to `/our-team/` (vercel.json / netlify.toml) |
 | anything else | Branded 404 with a real 404 status |
 
 ## Contact form
 
-The endpoint is `POST /api/contact`. The handler is `netlify/functions/contact.mjs`, which calls `src/shared/contact-handler.js`.
+The endpoint is `POST /api/contact`. On Vercel it is `api/contact.js`; on Netlify it is `netlify/functions/contact.mjs`. Both call `src/shared/contact-handler.js`, so validation and spam checks are identical.
 
 Fields follow the brief: Full name\*, Company / organisation, Email\*, Phone\* (country code, default +971), Nature of enquiry\* (options differ per practice), Message\*.
 
 | | Management Consulting | Coaching & Mentoring |
 |---|---|---|
 | Recipient env var | `CONTACT_TO_MC` (nalin@prismconsulting.org) | `CONTACT_TO_CM` (renu@prismconsulting.org) |
-| Subject | `New business enquiry — {Full name}` | same |
+| Subject | `[Management Consulting] New business enquiry — {Full name}` | `[Coaching & Mentoring] New business enquiry — {Full name}` |
 | Success message | "Thank you for contacting Prism Consulting. We will get back to you within 2 working days." | same |
 
 The browser and the server use the same validation rules (`src/shared/contact.js`).
@@ -53,6 +53,23 @@ The browser and the server use the same validation rules (`src/shared/contact.js
 - Optional reCAPTCHA v3, enabled by setting `VITE_RECAPTCHA_SITE_KEY` and `RECAPTCHA_SECRET`.
 - Body size limit, JSON-only, POST-only, optional `ALLOWED_ORIGIN` check.
 - Logs record a request ID and outcome only, never message contents.
+
+### Set up email delivery on Vercel (Gmail SMTP — current setup)
+
+Both forms currently deliver to `prismcounselling@gmail.com`. The subject starts with the practice name so the two are easy to tell apart.
+
+1. On the Google account `prismcounselling@gmail.com`, turn on **2-Step Verification**, then create an **App password** (Google Account → Security → App passwords). Copy the 16-character password.
+2. In Vercel → Project → Settings → Environment Variables (Production and Preview), add:
+   - `SMTP_USER` = `prismcounselling@gmail.com`
+   - `SMTP_PASS` = the app password (no spaces)
+   - `CONTACT_TO_MC` = `prismcounselling@gmail.com`
+   - `CONTACT_TO_CM` = `prismcounselling@gmail.com`
+   - Optional: `ALLOWED_ORIGIN` = your live origin(s), comma-separated. Leave it unset while testing on `*.vercel.app` preview URLs.
+3. Redeploy (env var changes only apply to new deployments), then send one test from **each** form.
+
+The email comes from `Prism Consulting <prismcounselling@gmail.com>`; Reply goes to the visitor. A personal Gmail account can send roughly 500 messages a day, far above what a contact form needs. To move to separate inboxes later, change `CONTACT_TO_MC` / `CONTACT_TO_CM` only. To switch to Resend, remove `SMTP_USER`/`SMTP_PASS` and follow the Resend steps below.
+
+Local test: copy `.env.example` to `.env`, put the app password in `SMTP_PASS`, then `npm run dev`. Vite serves `/api/contact` from `api/contact.js` itself, so no Vercel or Netlify CLI is needed. Restart `npm run dev` after editing `.env`.
 
 ### Set up email delivery (Resend)
 
