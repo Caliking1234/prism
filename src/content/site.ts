@@ -68,7 +68,7 @@ export const STEPS: Step[] = [
     n: 3,
     title: "Fee Payment",
     href: "https://prismglobalservices.com/fees-structure-individual-counselling-therapy/",
-    text: "Finally, you can review the pricing and plans to decide which package suits your needs best. Once we have received the payment, you will be connected with your coach / mentor / counsellor so you can start scheduling your sessions.",
+    text: "Finally, you can review the pricing and plans to decide which package suits your needs best. Once we have received the payment, you will be connected with your coach or mentor so you can start scheduling your sessions.",
   },
 ];
 export const WHY: string[] = [
