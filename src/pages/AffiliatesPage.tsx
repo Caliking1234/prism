@@ -55,6 +55,29 @@ export default function AffiliatesPage() {
             </div>
           </article>
           <article className="partner">
+            <PartnerLogo src="/assets/partners/eraya.png" name="ERAYA INC." />
+            <h2>ERAYA INC.</h2>
+            <div className="partner__text">
+              <p>
+                ERAYA INC. is a Dubai-based firm providing marketing management,
+                public relations management and project management services.
+              </p>
+              <p>
+                ERAYA INC. works on defined client mandates. It directs market
+                entry, coordinates the client’s advisers, and manages
+                relationships with institutional counterparties. Sectors include
+                real estate development, hospitality, retail and consumer
+                brands, government and institutional bodies, private offices and
+                infrastructure services.
+              </p>
+              <p>
+                Each mandate runs in four stages: operational assessment,
+                strategy definition, stakeholder convening and execution
+                oversight.
+              </p>
+            </div>
+          </article>
+          <article className="partner">
             <PartnerLogo
               src="/assets/partners/precision-legal.png"
               name="Precision Legal Consultancy"
@@ -86,30 +109,8 @@ export default function AffiliatesPage() {
               </p>
             </div>
           </article>
-          <article className="partner">
-            <PartnerLogo src="/assets/partners/eraya.png" name="ERAYA INC." />
-            <h2>ERAYA INC.</h2>
-            <div className="partner__text">
-              <p>
-                ERAYA INC. is a Dubai-based firm providing marketing management,
-                public relations management and project management services.
-              </p>
-              <p>
-                ERAYA INC. works on defined client mandates. It directs market
-                entry, coordinates the client’s advisers, and manages
-                relationships with institutional counterparties. Sectors include
-                real estate development, hospitality, retail and consumer
-                brands, government and institutional bodies, private offices and
-                infrastructure services.
-              </p>
-              <p>
-                Each mandate runs in four stages: operational assessment,
-                strategy definition, stakeholder convening and execution
-                oversight.
-              </p>
-            </div>
-          </article>
-          <article className="partner">
+
+          {/* <article className="partner">
             <PartnerLogo src="/assets/partners/eraya.png" name="ERAYA INC." />
             <h2>ERAYA INC.</h2>
             <div className="partner__text">
@@ -117,7 +118,7 @@ export default function AffiliatesPage() {
               <p>ERAYA INC. works on defined client mandates. It directs market entry, coordinates the client’s advisers, and manages relationships with institutional counterparties. Sectors include real estate development, hospitality, retail and consumer brands, government and institutional bodies, private offices and infrastructure services.</p>
               <p>Each mandate runs in four stages: operational assessment, strategy definition, stakeholder convening and execution oversight.</p>
             </div>
-          </article>
+          </article> */}
         </div>
       </section>
     </>
